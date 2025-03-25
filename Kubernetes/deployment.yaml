@@ -18,4 +18,33 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
+          env:
+            - name: GREETING_MESSAGE   
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config   
+                  key: greetings
+            - name: MYSQL_ROOT_PASSWORD   
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: MYSQL_ROOT_PASSWORD
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+   
+
+ 
+
 
