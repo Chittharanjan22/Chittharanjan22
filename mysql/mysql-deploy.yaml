@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql-con
+        image: mysql:latest
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "db_01"
+        - name: MYSQL_USER
+          value: "chitti"
+        - name: MYSQL_PASSWORD
+          value: "root123"
+        ports:
+        - containerPort: 3306
+
+
+
