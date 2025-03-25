@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mysql-deploy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -17,17 +17,65 @@ spec:
       containers:
       - name: mysql-con
         image: mysql:latest
-        env: 
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
+        env:
         - name: MYSQL_DATABASE
-          value: "db_01"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-database
         - name: MYSQL_USER
-          value: "chitti"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-user
         - name: MYSQL_PASSWORD
-          value: "root123"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
         ports:
         - containerPort: 3306
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "mysql-keyvault-secrets"
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
