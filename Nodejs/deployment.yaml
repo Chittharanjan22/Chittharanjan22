@@ -4,7 +4,7 @@ metadata:
   name: node-app
   namespace: aks-demo
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: node-app
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: node-container
-          image: crnodeapp.azurecr.io/node-app:latest  
+          image: crnodeapp.azurecr.io/node-app:v1
           ports:
             - containerPort: 3000  
           env:
