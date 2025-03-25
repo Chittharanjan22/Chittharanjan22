@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+  namespace: aks-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-container
+          image: crnodeapp.azurecr.io/node-app:latest  
+          ports:
+            - containerPort: 3000  
+          env:
+            - name: MYSQL_ROOT_PASSWORD   
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: GREETING_MESSAGE   
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: greetings
