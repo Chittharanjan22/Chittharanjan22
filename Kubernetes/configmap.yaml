@@ -5,3 +5,4 @@ metadata:
   namespace: aks-demo
 data:
   greetings: Hello,World
+
